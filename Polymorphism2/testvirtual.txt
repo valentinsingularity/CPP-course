@@ -1,0 +1,61 @@
+#include <iostream>
+using namespace std;
+#include "Area.h"
+#include "Circle.h"
+#include "Ring.h"
+#include "Rectangle.h"
+
+
+/* Relation between classes:  
+       |----|
+       |AREA|
+       |----|
+        ^   ^
+       /     \
+     /        \
+ /------/     /---------/   
+ /CIRCLE/     /RECTANGLE/
+/------/      /---------/
+    ^               ^
+    |               /
+    |                /
+ /-----/          /------/ 
+ /RING/          /SQUARE/
+ /----/         /-----/
+    
+*/  
+ 
+const int num_obj = 6;
+int main() {
+	Area *list[num_obj];						// (1)  the vector list which stores num_obj pointers to objects of type area is declared 
+	int index = 0;								// (2)  the int variable index is declared and initialized to 0
+	double sum_area = 0.0;						// (3)  the double variable sum_area is declared and intitialized to 0.0
+	cout << "Creating Ring: ";
+	Ring blue_ring("BLUE", 5, 2);				// (4)  the constructor of the class Ring is called, which calls in turn
+	                                            //      the constructors of the classes Circle and Area, creating the Ring object blue_ring
+												//      with color "BLUE" ,radius 5 and inner radius 2
+	cout << "Creating Circle: ";
+	Circle yellow_circle("YELLOW", 7);
+	cout << "Creating Rectangle: ";
+	Rectangle green_rectangle("GREEN",5,6);
+	cout << "Creating Circle: ";
+	Circle red_circle("RED", 8);
+	cout << "Creating Rectangle: ";
+	Rectangle black_rectangle("BLACK", 10, 20);
+	cout << "Creating Ring: ";
+	Ring violet_ring("VIOLET", 100, 5);
+	list[0] = &blue_ring;						// (5) a reference to the object blue_ring is assigned to the first entry of the vector list 
+	list[1] = &yellow_circle;
+	list[2] = &green_rectangle;
+	list[3] = &red_circle;
+	list[4] = &black_rectangle;
+	list[5] = &violet_ring;
+	while (index < num_obj) {					// (7) a while loop is running while the variable index is smaller than the variable num_obj 
+		(list[index])->getColor();				// (8) the object pointed to by the pointer with index "index" stored in the vector list
+		                                        //     is accessed with the dereference operator, the method getColor() being called
+		sum_area += (list[index++])->calcArea();
+	}
+	cout << "\nThe total area is "
+			<< sum_area << " units " << endl;	// (9) the total area of the objects pointed to by the vector is printed on the screen
+	return 0;
+}
